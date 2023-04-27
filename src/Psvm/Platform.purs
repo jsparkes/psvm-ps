@@ -37,7 +37,7 @@ releaseName :: SupportedPlatform -> String
 releaseName = case _ of
   Darwin -> "macos"
   Linux -> "linux64"
-  Win32 -> "win32"
+  Win32 -> "win64"
 
 -- | Get the current platform.
 askPlatform :: Psvm SupportedPlatform
@@ -63,3 +63,11 @@ askHome = do
       exit 1 "could not determine home directory from environment variables"
     Just home' ->
       pure home'
+
+-- | Get the executable suffix for the current platform.
+askSuffix :: Psvm String
+askSuffix = do
+  platform' <- askPlatform
+  pure $ case platform' of
+    Win32 -> ".exe"
+    _ -> ""

@@ -60,11 +60,12 @@ installPurs version = do
 selectPurs :: Version -> Psvm Unit
 selectPurs version = do
   psvm <- askPsvmFolder
+  suffix <- Platform.askSuffix
 
   let
     vrs = show version
-    src = Path.concat [ psvm.versions, vrs, "purescript", "purs" ]
-    to = Path.concat [ psvm.current, "bin", "purs" ]
+    src = Path.concat [ psvm.versions, vrs, "purescript", "purs" <> suffix ]
+    to = Path.concat [ psvm.current, "bin", "purs" <> suffix ]
 
   liftEffect $ mkdirRecursive psvm.archives $
     copyFile src to do
